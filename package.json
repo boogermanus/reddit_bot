@@ -1,0 +1,15 @@
+{
+  "name": "reddit_bot",
+  "version": "0.0.1",
+  "description": "A reddit bot using the snoowrap package",
+  "main": "app.js",
+  "dependencies": {
+    "snoowrap": "^1.13.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jordan Woodruff <boogermanus@gmail.com>",
+  "license": "ISC"
+}
