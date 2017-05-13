@@ -1,13 +1,8 @@
 var snoowrap = require('snoowrap');
 var EventEmitter = require('events');
+var key = require('./redditkey');
 
-var r = new snoowrap({
-    userAgent: 'Boogermanus Bot',
-    clientId: 'Zw-2dqyeVwabwg',
-    clientSecret: '8SPB0S72QdlEudElp-yzgFSiKIs',
-    username: 'boogermanus',
-    password: 'Naruto35'
-});
+var r = new snoowrap(key.RedditAPIKey);
 
 var usersToFollow = ["boogermanus"];
 var previousItems = []
