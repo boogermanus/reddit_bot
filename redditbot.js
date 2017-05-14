@@ -1,8 +1,5 @@
 var EventEmitter = require('events').EventEmitter;
-
-var getDisplay = function(data) {
-    return data.subreddit_name_prefixed + " -> " + data.title;
-}
+var utils = require('./utils');
 
 var RedditBot = function(wrap) {
     this.snooWrap = wrap;
@@ -18,7 +15,7 @@ RedditBot.prototype.followUpvotes = function(user) {
 RedditBot.prototype.reportRecents = function(data) {
     if(this.previousUpvotes.length == 0) {
         for(upvoted of data) {
-            var display  = getDisplay(upvoted);
+            var display  = utils.getDisplay(upvoted);
             this.previousUpvotes.push(display);
             this.emitter.emit('add', display);
         }
@@ -26,7 +23,7 @@ RedditBot.prototype.reportRecents = function(data) {
     else {
         for(upvoted of data) {
 
-            var display = getDisplay(upvoted);
+            var display = utils.getDisplay(upvoted);
 
             if(this.previousUpvotes.findIndex(s => s === display) === -1)
             {
