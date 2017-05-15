@@ -1,10 +1,11 @@
 var EventEmitter = require('events').EventEmitter;
 var utils = require('./utils');
+var util = require('util');
 
 var RedditBot = function(wrap) {
     this.snooWrap = wrap;
     this.previousUpvotes = [];
-    this.emitter = new EventEmitter();
+    EventEmitter.call(this);
 };
 
 RedditBot.prototype.followUpvotes = function(user) {
@@ -17,7 +18,7 @@ RedditBot.prototype.reportRecents = function(data) {
         for(upvoted of data) {
             var display  = utils.getDisplay(upvoted);
             this.previousUpvotes.push(display);
-            this.emitter.emit('add', display);
+            this.emit('add', display);
         }
     }
     else {
@@ -31,11 +32,13 @@ RedditBot.prototype.reportRecents = function(data) {
                 this.previousUpvotes.splice(-1,1);
                 this.previousUpvotes.splice(0,0,display);
 
-                this.emitter.emit('add', display);
+                this.emit('add', display);
             }
         }
     }
 }
+
+util.inherits(RedditBot, EventEmitter);
 
 module.exports = {
     RedditBot: RedditBot
