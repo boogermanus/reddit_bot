@@ -10,7 +10,7 @@ var RedditBot = function(wrap) {
 
 RedditBot.prototype.followUpvotes = function(user) {
     this.snooWrap.getUser(user).getUpvotedContent({'limit': 10 })
-        .then((data) => this.reportRecents(data))
+        .then((data) => this.reportRecents(data));
 }
 
 RedditBot.prototype.reportRecents = function(data) {
@@ -36,6 +36,18 @@ RedditBot.prototype.reportRecents = function(data) {
             }
         }
     }
+}
+
+RedditBot.prototype.run = function() {
+    var self = this;
+    this.on('add', console.log);
+    this.on('interval', function() {
+        this.followUpvotes("boogermanus");
+    });
+
+    setInterval(function() {
+        self.emit('interval');
+    }, 10000)
 }
 
 util.inherits(RedditBot, EventEmitter);

@@ -7,8 +7,5 @@ var r = new snoowrap(key.RedditAPIKey);
 
 var redditBot = new bot.RedditBot(r);
 
-setInterval(function() {
-    redditBot.followUpvotes("boogermanus");
-}, 10000);
+redditBot.run();
 
-redditBot.on('add', console.log);
