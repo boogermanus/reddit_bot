@@ -1,5 +1,5 @@
 var EventEmitter = require('events').EventEmitter;
-var utils = require('./utils');
+var utilities = require('./utilities');
 var util = require('util');
 
 var RedditBot = function(wrap) {
@@ -10,13 +10,13 @@ var RedditBot = function(wrap) {
 
 RedditBot.prototype.followUpvotes = function(user) {
     this.snooWrap.getUser(user).getUpvotedContent({'limit': 10 })
-        .then((data) => this.reportRecents(data));
+        .then((data) => this.reportRecents(data, user));
 }
 
-RedditBot.prototype.reportRecents = function(data) {
+RedditBot.prototype.reportRecents = function(data, user) {
     if(this.previousUpvotes.length == 0) {
         for(upvoted of data) {
-            var display  = utils.getDisplay(upvoted);
+            var display  = utilities.getDisplay(user, upvoted);
             this.previousUpvotes.push(display);
             this.emit('add', display);
         }
@@ -24,8 +24,9 @@ RedditBot.prototype.reportRecents = function(data) {
     else {
         for(upvoted of data) {
 
-            var display = utils.getDisplay(upvoted);
+            var display = utilities.getDisplay(user, upvoted);
 
+            //is it in the list?
             if(this.previousUpvotes.findIndex(s => s === display) === -1)
             {
                 //remove last item in list and add this item to top of stack
