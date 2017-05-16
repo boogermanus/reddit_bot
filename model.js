@@ -11,7 +11,7 @@ User.prototype.addUpvotes = function(data) {
 
 User.prototype.addUpvote = function(data) {
     //is it in the list?
-    if(this.previousUpvotes.findIndex(s => s === data) === -1)
+    if(this.previousUpvotes.findIndex(s => s.name === data.name) === -1)
     {
         //remove last item in list and add this item to top of stack
         this.previousUpvotes.splice(-1,1);
