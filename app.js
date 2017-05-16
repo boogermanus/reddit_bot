@@ -7,5 +7,6 @@ var r = new snoowrap(key.RedditAPIKey);
 
 var redditBot = new bot.RedditBot(r);
 
+redditBot.addUser("boogermanus");
 redditBot.run();
 
