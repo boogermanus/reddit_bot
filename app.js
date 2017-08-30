@@ -1,6 +1,12 @@
-var snoowrap = require('snoowrap');
-var key = require('./redditkey');
+let snoowrap = require('snoowrap');
+let key = require('./redditkey');
+let bot = require('./bot');
 
-var r = new snoowrap(key.RedditAPIKey);
+let r = new snoowrap(key.RedditAPIKey);
+let redditBot = new bot.RedditBot(r);
+redditBot.run();
 
+redditBot.on('data',(json) => {
+    console.log('Event Count: ' + json.count);
+});
 

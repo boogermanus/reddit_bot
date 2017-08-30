@@ -3,9 +3,7 @@
   "version": "0.0.1",
   "description": "A reddit bot using the snoowrap package",
   "main": "app.js",
-  "dependencies": {
-    "snoowrap": "^1.13.0"
-  },
+  "dependencies": {},
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
