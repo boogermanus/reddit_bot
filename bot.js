@@ -12,7 +12,7 @@ class RedditBot extends EventEmitter {
 
     run() {
         this.watchList = this.loadWatchList('watchlist.txt');
-        this.watchList.pop();
+
         setInterval(() => {this.refresh()}, 10000);
     }
 
@@ -34,6 +34,7 @@ class RedditBot extends EventEmitter {
     addData(data) {
         let newData = [];
         for(let submission of data) {
+            //only add items that are not in the list
             if(this.recentSubmissions.findIndex(i => i.title === submission.title) === -1) {
                 let newSub = utilities.getSubmissionJSON(submission);
                 //remove first record
