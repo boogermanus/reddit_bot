@@ -1,4 +1,5 @@
 const EventEmitter = require('events');
+const utilities = require('./utilities');
 
 class RedditBot extends EventEmitter {
     constructor(snoo) {
@@ -23,9 +24,8 @@ class RedditBot extends EventEmitter {
         //if not data, push everything
         if(this.recentSubmissions.length === 0) {
             for(let submission of data) {
-                this.recentSubmissions.push({
-                    title:submission.title
-                });
+                console.log(submission.toJSON());
+                this.recentSubmissions.push(utilities.getSubmissionJSON(submission));
             }
 
             this.emit('data', this.recentSubmissions);
@@ -36,7 +36,8 @@ class RedditBot extends EventEmitter {
             let newData = [];
             for(let submission of data) {
                 if(this.recentSubmissions.findIndex(i => i.title === submission.title) === -1) {
-                    let newSub = {title:submission.title};
+                    let newSub = utilities.getSubmissionJSON(submission);
+                    //remove first record
                     this.recentSubmissions.pop();
                     this.recentSubmissions.unshift(newSub);
                     newData.push(newSub);
