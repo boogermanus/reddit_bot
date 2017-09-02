@@ -8,10 +8,11 @@ let redditBot = new bot.RedditBot(r);
 redditBot.run();
 
 redditBot.on('data',(data) => {
-    let date = new Date();
-    console.log("Data Update -> " + date.toLocaleString('en-US'));
+    console.log("Data Update -> " + new Date().toLocaleString('en-US'));
+
     for(let sub of data) {
         console.log(utilities.logSubmissionJSON(sub));
     }
+    
 });
 

@@ -1,15 +1,59 @@
 const EventEmitter = require('events');
 const utilities = require('./utilities');
+const fs = require('fs');
 
 class RedditBot extends EventEmitter {
     constructor(snoo) {
         super();
         this.snoo = snoo;
         this.recentSubmissions = [];
+        this.watchList = [];
     }
 
     run() {
+        this.watchList = this.loadWatchList('watchlist.txt');
+        this.watchList.pop();
         setInterval(() => {this.refresh()}, 10000);
+    }
+
+    loadWatchList(fileName) {
+        return fs.readFileSync(fileName).toString().split('\n');
+    }
+
+    emitData(data) {
+        this.emit('data', data);
+    }
+
+    loadData(data) {
+        for(let submission of data) {
+            //console.log(submission.toJSON());
+            this.recentSubmissions.push(utilities.getSubmissionJSON(submission));
+        }
+    }
+
+    addData(data) {
+        let newData = [];
+        for(let submission of data) {
+            if(this.recentSubmissions.findIndex(i => i.title === submission.title) === -1) {
+                let newSub = utilities.getSubmissionJSON(submission);
+                //remove first record
+                this.recentSubmissions.pop();
+                this.recentSubmissions.unshift(newSub);
+                newData.push(newSub);
+            }
+        }
+        return newData;
+    }
+
+    watchData(data) {
+        for(let watch of this.watchList) {
+            let filtered = data.filter(d => d.title.toLowerCase().indexOf(watch) !== -1);
+            if(filtered.length > 0) {
+                for(let item of filtered) {
+                    console.log("Found: " + watch + " in " + item.id);
+                }
+            }
+        }
     }
     
     async getSubreddit(subredditName) {
@@ -23,27 +67,14 @@ class RedditBot extends EventEmitter {
 
         //if not data, push everything
         if(this.recentSubmissions.length === 0) {
-            for(let submission of data) {
-                console.log(submission.toJSON());
-                this.recentSubmissions.push(utilities.getSubmissionJSON(submission));
-            }
-
-            this.emit('data', this.recentSubmissions);
+            this.loadData(data);
+            this.watchData(data);
+            this.emitData(this.recentSubmissions);
         }
         else {
             //we have data, so we need to process the incoming data to determine
-            //if it is new.
-            let newData = [];
-            for(let submission of data) {
-                if(this.recentSubmissions.findIndex(i => i.title === submission.title) === -1) {
-                    let newSub = utilities.getSubmissionJSON(submission);
-                    //remove first record
-                    this.recentSubmissions.pop();
-                    this.recentSubmissions.unshift(newSub);
-                    newData.push(newSub);
-                }
-            }
-
+            //if it is new.}
+            let newData = this.addData(data)
             this.emit('data', newData);
         }
     }
