@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 let getSubmissionJSON = function(submission) {
     let json = {
         id:submission.id,
@@ -17,8 +19,23 @@ let logSubmissionJSON = function(submission) {
     return logEntry.slice(0, -1);
 }
 
+let logWatchJSON = function(watch,submission) {
+    let logEntry = "Found \"" + watch + "\" in ";
+    for(entry in submission) {
+        logEntry += submission[entry] + ":"
+    }
+
+    return logEntry.slice(0,-1);
+}
+
+let loadFile = function(fileName) {
+    return fs.readFileSync(fileName).toString().split('\n');
+}
+
 module.exports =
 {
     getSubmissionJSON:getSubmissionJSON,
-    logSubmissionJSON:logSubmissionJSON
+    logSubmissionJSON:logSubmissionJSON,
+    logWatchJSON:logWatchJSON,
+    loadFile:loadFile
 };
