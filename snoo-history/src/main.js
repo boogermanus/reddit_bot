@@ -1,16 +1,12 @@
 const snoowrap = require('snoowrap');
 const fs = require('fs');
+const config = require('config');
+
 const snooze = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-const snooConf = {
-        userAgent: 'snoo history view',
-        clientId: '',
-        clientSecret: '',
-        username: '',
-        password: ''
-}
+
 
 async function main() {
-    let api = new snoowrap(snooConf);
+    let api = new snoowrap(config.get('snoowrap'));
     let user = api.getUser("boogermanus");
     let saved = await user.getSavedContent();
 
