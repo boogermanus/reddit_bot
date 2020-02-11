@@ -1,0 +1,19 @@
+{
+  "name": "snoo-history",
+  "version": "0.0.1",
+  "description": "An app to parse reddit history",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "node src/main.js"
+  },
+  "keywords": [
+    "snoo",
+    "reddit",
+    "history"
+  ],
+  "author": "jordan.woodruff <boogermanus@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "snoowrap": "^1.15.2"
+  }
+}
