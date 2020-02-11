@@ -5,4 +5,5 @@
 **/database.db-journal
 **/dist
 **/.DS_Store
+**/config
 out.json
