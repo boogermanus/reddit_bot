@@ -3,10 +3,10 @@ const fs = require('fs');
 const snooze = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 const snooConf = {
         userAgent: 'snoo history view',
-        clientId: 'Zw-2dqyeVwabwg',
-        clientSecret: '8SPB0S72QdlEudElp-yzgFSiKIs',
-        username: 'boogermanus',
-        password: 'Shiz37une'
+        clientId: '',
+        clientSecret: '',
+        username: '',
+        password: ''
 }
 
 async function main() {
